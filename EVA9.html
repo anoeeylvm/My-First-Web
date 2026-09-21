@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>NERV GEHIR · 新世纪福音战士 终极档案</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #05070a;
+            font-family: 'Inter', 'JetBrains Mono', monospace;
+            color: #d9e2e8;
+            line-height: 1.5;
+            overflow-x: hidden;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 255, 65, 0.02) 0px, rgba(0, 255, 65, 0.02) 2px, transparent 2px, transparent 6px);
+            pointer-events: none;
+            z-index: 2;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(128, 0, 32, 0.08) 0%, #000000 90%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            background: #0f1117;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e34c26;
+            border-radius: 4px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem 3rem;
+            position: relative;
+            z-index: 5;
+        }
+        .nerv-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid #e34c26;
+            padding-bottom: 0.6rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .logo-area h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            background: linear-gradient(135deg, #ff4d4d, #b91c1c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(220, 38, 38, 0.3);
+        }
+        .logo-area p {
+            font-size: 0.7rem;
+            font-family: monospace;
+            color: #ff5e5e;
+            letter-spacing: 2px;
+        }
+        .nerv-badge {
+            font-family: monospace;
+            background: #1e1a1faa;
+            backdrop-filter: blur(4px);
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            border: 1px solid #e34c2666;
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+        .warning-bar {
+            background: #1f0b0e;
+            border-left: 6px solid #e34c26;
+            padding: 0.6rem 1rem;
+            font-size: 0.7rem;
+            font-family: monospace;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .countdown-box {
+            background: #0b0d12;
+            border: 1px solid #e34c2660;
+            border-radius: 1.2rem;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 1rem 0 2rem;
+            font-family: monospace;
+        }
+        .cd-timer {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: #00000080;
+            padding: 0.2rem 1rem;
+            border-radius: 2rem;
+        }
+        .section-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin: 2rem 0 1.2rem 0;
+            padding-left: 12px;
+            border-left: 8px solid #e34c26;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title i {
+            color: #e34c26;
+        }
+        .info-card {
+            background: rgba(10, 12, 18, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(227, 76, 38, 0.35);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2rem;
+        }
+        .eva-card, .nerv-card {
+            background: rgba(10, 12, 18, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(227, 76, 38, 0.35);
+            border-radius: 1.8rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .eva-card:hover, .nerv-card:hover {
+            transform: translateY(-6px);
+            border-color: #e34c26;
+            box-shadow: 0 0 18px rgba(227, 76, 38, 0.2);
+        }
+        .eva-unit-card {
+            background: rgba(8, 12, 20, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 200, 255, 0.5);
+            border-radius: 1.8rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        .eva-unit-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: #00ffff;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+        }
+        .eva-unit-card .card-media {
+            height: 220px;
+            background: linear-gradient(135deg, #0a1a20, #010a0f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .eva-unit-card .card-media::before {
+            content: "⚡";
+            position: absolute;
+            font-size: 6rem;
+            opacity: 0.15;
+            color: #00ffff;
+        }
+        .eva-unit-card .card-media i {
+            font-size: 4rem;
+            filter: drop-shadow(0 0 10px #00ccff);
+            color: #00e0ff;
+            z-index: 2;
+        }
+        .eva-unit-card .card-info {
+            padding: 1rem 1.2rem 1.3rem;
+            background: linear-gradient(to top, #021016, transparent);
+        }
+        .eva-unit-card .card-info h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #00e5ff;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+        .eva-unit-card .role-tag {
+            font-family: monospace;
+            color: #88ffff;
+            font-size: 0.7rem;
+            margin-top: 8px;
+            background: rgba(0, 200, 255, 0.15);
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+        .card-media {
+            height: 220px;
+            background: linear-gradient(145deg, #11151f, #03060c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-media i {
+            font-size: 4rem;
+            filter: drop-shadow(0 0 6px #e34c26);
+        }
+        .card-info {
+            padding: 1rem 1.2rem 1.3rem;
+        }
+        .card-info h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ff9066;
+        }
+        .role-tag {
+            font-family: monospace;
+            color: #e34c26;
+            font-size: 0.7rem;
+            margin-top: 5px;
+        }
+        .apostle-section {
+            background: #03060cb3;
+            border-radius: 2rem;
+            padding: 1rem;
+            margin: 1rem 0 2rem;
+        }
+        .apostle-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 1.2rem;
+            padding: 0.5rem;
+            scrollbar-width: thin;
+        }
+        .apostle-card {
+            min-width: 220px;
+            background: #0b0f17dd;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            border-left: 4px solid #e34c26;
+            transition: 0.2s;
+        }
+        .apostle-card:hover {
+            transform: translateX(2px);
+            border-left-color: #ff6633;
+        }
+        .apostle-name {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #e05a2a;
+        }
+        .apostle-symbol {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #ffaa77;
+            margin: 5px 0;
+        }
+        .apostle-desc {
+            font-size: 0.75rem;
+            color: #adbbd0;
+            line-height: 1.4;
+        }
+        .bgm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        .bgm-card {
+            background: rgba(10, 12, 18, 0.7);
+            border-radius: 1.2rem;
+            overflow: hidden;
+            border: 1px solid rgba(227, 76, 38, 0.3);
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .bgm-card:hover {
+            border-color: #e34c26;
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(227, 76, 38, 0.3);
+        }
+        /* 播放中的卡片样式 */
+        .bgm-card.playing {
+            border-color: #00ffaa;
+            box-shadow: 0 0 20px rgba(0, 255, 170, 0.5);
+            background: rgba(0, 40, 30, 0.8);
+        }
+        .bgm-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            background: #1a1e2a;
+        }
+        .bgm-info {
+            padding: 1rem;
+        }
+        .bgm-info h3 {
+            color: #e34c26;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .play-badge {
+            display: inline-block;
+            background: #e34c26;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            margin-left: 8px;
+        }
+        .playing .play-badge {
+            background: #00ffaa;
+            color: #000;
+        }
+        .fullscreen-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-container {
+            max-width: 1000px;
+            width: 90%;
+            background: linear-gradient(135deg, #0f121e, #080b12);
+            border: 2px solid #e34c26;
+            border-radius: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            overflow: hidden;
+        }
+        .modal-left {
+            flex: 1;
+            min-width: 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: #03050a;
+        }
+        .modal-left img {
+            width: 100%;
+            max-width: 260px;
+            border-radius: 1rem;
+            border: 2px solid #e34c2680;
+        }
+        .modal-right {
+            flex: 1.8;
+            padding: 1.8rem;
+        }
+        .modal-right h2 {
+            font-size: 1.8rem;
+            color: #ffaa77;
+        }
+        .info-row {
+            margin: 0.8rem 0;
+            border-left: 3px solid #e34c26;
+            padding-left: 1rem;
+        }
+        .quote-text {
+            font-style: italic;
+            color: #ffccaa;
+            background: #1e1a2e80;
+            padding: 0.6rem;
+            border-radius: 1rem;
+            margin-top: 5px;
+        }
+        .close-modal-full {
+            background: #e34c26;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 2rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .go-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #e34c26;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99;
+            opacity: 0.7;
+        }
+        .go-top:hover { opacity: 1; }
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.7rem;
+            border-top: 1px solid #2a241f;
+            padding: 1.5rem;
+        }
+        .message-board-enhanced {
+            background: #0b0f17cc;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .msg-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+            color: #e34c26;
+        }
+        .msg-input-area {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.2rem;
+        }
+        .msg-input {
+            flex: 1;
+            background: #1e1e2a;
+            border: 1px solid #e34c2680;
+            padding: 0.8rem 1rem;
+            border-radius: 2rem;
+            color: white;
+            font-family: inherit;
+        }
+        .msg-input:focus {
+            outline: none;
+            border-color: #e34c26;
+        }
+        .msg-btn {
+            background: #e34c26;
+            border: none;
+            padding: 0 1.8rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .msg-btn:hover {
+            background: #ff6633;
+        }
+        .msg-list-enhanced {
+            max-height: 320px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .msg-item-enhanced {
+            background: #1e1e2e;
+            padding: 12px 15px;
+            border-radius: 1rem;
+            border-left: 4px solid #e34c26;
+            transition: 0.1s;
+        }
+        .msg-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+        }
+        .msg-name {
+            font-weight: bold;
+            color: #ffaa77;
+        }
+        .msg-date {
+            color: #888;
+            font-size: 0.7rem;
+        }
+        .msg-text {
+            color: #cbd5e6;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+        .delete-msg {
+            background: none;
+            border: none;
+            color: #e34c26;
+            cursor: pointer;
+            font-size: 0.7rem;
+            margin-left: 10px;
+            opacity: 0.6;
+        }
+        .delete-msg:hover {
+            opacity: 1;
+        }
+        .lilith-badge {
+            background: #8b2c2c33;
+            border-left-color: #ff6666;
+        }
+        @media (max-width: 850px) {
+            .container { padding: 1rem; }
+            .cd-timer { font-size: 1rem; }
+            .character-grid { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="nerv-header">
+        <div class="logo-area">
+            <h1>⚡ NERV GEHIR ⚡</h1>
+            <p>ABSOLUTE TERROR FIELD · Evangelion 终极档案</p>
+        </div>
+        <div class="nerv-badge"><i class="fas fa-skull"></i> MAGI SYSTEM // 机密 Σ</div>
+    </div>
+    <div class="warning-bar">
+        <span><i class="fas fa-radiation"></i> 精神污染注意 | 同步率临界</span>
+        <span><i class="fas fa-code-branch"></i> 人类补完计划 预备案 0079</span>
+        <span>© SEELE · 朗基努斯之枪</span>
+    </div>
+
+    <div class="countdown-box">
+        <span><i class="fas fa-hourglass-half"></i> 人类补完计划 预想日倒计时</span>
+        <span class="cd-timer" id="countdownTimer">-- -- --</span>
+    </div>
+
+    <!-- NERV 介绍 -->
+    <div class="section-title"><i class="fas fa-building"></i> NERV</div>
+    <div class="info-card">
+        <p><strong style="color:#e34c26;">NERV（神经）</strong> 是联合国直属的特务机关，以“人类补完计划”为核心目的，负责开发、研究 Evangelion 并歼灭使徒。总部位于日本箱根的地下都市“Geo Front”，由 <strong>碇源堂</strong> 担任总司令。NERV 拥有超级计算机 MAGI 系统，以及 EVA 系列机体。其表面是对抗使徒的防卫组织，背后则暗藏 SEELE 主导的人类补完计划——意图通过仪式让全人类回归莉莉丝之卵，消除心之壁。组织内充满阴谋、牺牲与人性的挣扎，是故事最核心的舞台。</p>
+        <p style="margin-top:10px;">🔻 主要部门：战术作战部（葛城美里）、技术开发部（赤木律子）、科学调查部。NERV 标志为无花果叶与半叶图案，象征智慧与原罪。</p>
+    </div>
+
+    <!-- 故事梗概 -->
+    <div class="section-title"><i class="fas fa-scroll"></i> 人类补完计划</div>
+    <div class="info-card">
+        <p>公元2000年，南极发生“第二次冲击”导致全球半数人口灭亡，海平面上升，地轴偏转。15年后，不明生命体“使徒”开始袭击东京-3。少年 <strong>碇真嗣</strong> 被父亲召唤，成为 EVA 初号机驾驶员，与 <strong>绫波丽</strong>、<strong>明日香</strong> 共同对抗使徒。然而随着战斗加剧，NERV 背后的真相逐渐浮出水面：EVA 是复制自第一使徒亚当的兵器，而人类则是第十八使徒。最终，人类补完计划启动，所有灵魂回归莉莉丝，真嗣在崩溃与抉择中寻找自我与他人的意义。作品以深刻的心理学剖析、宗教哲学与意识流手法，成为动画史上的不朽丰碑。</p>
+    </div>
+
+    <!-- 驾驶员部分 -->
+    <div class="section-title"><i class="fas fa-user-astronaut"></i> EVA 适格者</div>
+    <div class="character-grid" id="characterGrid"></div>
+
+    <!-- NERV 本部作战指挥人员 -->
+    <div class="section-title"><i class="fas fa-users"></i> 作战指挥</div>
+    <div class="character-grid" id="nervStaffGrid"></div>
+
+    <!-- 泛用人形决战兵器 -->
+    <div class="section-title"><i class="fas fa-microchip"></i> EVANGELION</div>
+    <div class="character-grid" id="evaUnitGrid"></div>
+
+    <!-- 使徒图鉴 -->
+    <div class="section-title"><i class="fas fa-dragon"></i> ANGEL ATTACK</div>
+    <div class="apostle-section">
+        <div class="apostle-scroll" id="apostleScroll"></div>
+        <div style="font-size:0.7rem; text-align:right; margin-top:6px; color:#e34c26;"><i class="fas fa-exclamation-triangle"></i> 使徒总数: 18 (包含人类) | 歼灭数量: 17</div>
+    </div>
+
+    <!-- 动画/电影系列 -->
+    <div class="section-title"><i class="fas fa-film"></i> 动画 · 剧场版系列</div>
+    <div class="bgm-grid" id="seriesGrid"></div>
+
+    <!-- 经典 BGM - 支持播放/暂停 -->
+    <div class="section-title"><i class="fas fa-music"></i> 灵魂旋律 <span style="font-size:0.8rem;"></span></div>
+    <div class="bgm-grid" id="bgmGrid"></div>
+
+    <!-- 留言板 -->
+    <div class="section-title"><i class="fas fa-comment"></i> 灵魂共鸣</div>
+    <div class="message-board-enhanced">
+        <div class="msg-stats">
+            <span><i class="fas fa-comments"></i> 共 <span id="msgCount">0</span> 条留言</span>
+            <span><i class="fas fa-trash-alt"></i> 点击留言右侧 ❌ 可删除</span>
+        </div>
+        <div class="msg-input-area">
+            <input type="text" id="msgNameInput" class="msg-input" placeholder="你的代号 (如：NERV职员)" maxlength="30">
+            <input type="text" id="msgContentInput" class="msg-input" placeholder="写下你对EVA的感悟、疑问或想说的话..." maxlength="300">
+            <button id="sendMsgBtn" class="msg-btn"><i class="fas fa-paper-plane"></i> 发送留言</button>
+        </div>
+        <div class="msg-list-enhanced" id="messageListEnhanced"></div>
+    </div>
+
+    <div class="footer">⚡ 只要活着，哪里都是天堂。 —— 渚薰 · Evangelion Final ⚡<br>“莉莉丝之卵，终将孕育新的生命与希望”</div>
+</div>
+
+<div class="go-top" id="goTopBtn"><i class="fas fa-arrow-up"></i></div>
+
+<!-- 全屏模态框 -->
+<div id="fullscreenModal" class="fullscreen-modal">
+    <div class="modal-container">
+        <div class="modal-left">
+            <img id="modalCharacterImg" src="" alt="角色肖像">
+            <div style="font-size:0.7rem; margin-top:8px;">※ 可替换图片URL</div>
+        </div>
+        <div class="modal-right">
+            <h2 id="modalCharacterName">碇真嗣</h2>
+            <div class="role-tag" id="modalRoleTag" style="font-size:0.9rem;">第3少年 / 初号机驾驶员</div>
+            <div class="info-row">
+                <span id="modalBirthLabel"><strong>生日：</strong></span> <span id="modalBirth"></span>
+            </div>
+            <div class="info-row">
+                <span id="modalRelationLabel"><strong>人物关系：</strong></span> <span id="modalRelation"></span>
+            </div>
+            <div class="info-row">
+                <span id="modalBioLabel"><strong>生平简述：</strong></span> <span id="modalBio"></span>
+            </div>
+            <div class="info-row" id="modalQuoteRow">
+                <span id="modalQuoteLabel"><strong>经典台词：</strong></span>
+                <div class="quote-text" id="modalQuote"></div>
+            </div>
+            <button class="close-modal-full" id="closeModalBtn">关闭档案</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ================= 驾驶员数据 =================
+    const characters = [
+        { id:"kaworu", name:"渚薰", nameEn:"KAWORU NAGISA", role:"第17使徒 / 自由天使", cardImg:"images/渚薰.png",birth:"9月13日 (设定15)", relation:"碇真嗣(灵魂挚友) · SEELE棋子", bio:"以人类形态出现的最后使徒，温柔而神秘，拥有自由意志。与真嗣建立深刻羁绊后，选择将未来交给人类，主动求死。", quote:"也许，我是为了与你相遇才诞生的。", img:"images/渚薰1.png" },
+        { id:"shinji", name:"碇真嗣", nameEn:"IKARI SHINJI", role:"第3少年 / 初号机驾驶员", cardImg:"images/真嗣1.png",birth:"2001年6月6日", relation:"父亲碇源堂；葛城美里；绫波丽；明日香", bio:"内向敏感的少年，被父亲召唤驾驶EVA，在战斗中寻找自我价值与羁绊。", quote:"不能逃避，不能逃避，不能逃避……", img:"images/真嗣.png" },
+        { id:"asuka", name:"惣流·明日香·兰格雷", nameEn:"ASUKA LANGLEY", role:"第2少女 / 二号机驾驶员",cardImg:"images/明日香1.png", birth:"2001年12月4日", relation:"母亲京子；与真嗣竞争；加持良治", bio:"骄傲的天才驾驶员，以优秀掩饰创伤，在与使徒战斗中逐渐崩溃又觉醒。", quote:"你是白痴吗？", img:"images/明日香.png" },
+        { id:"rei", name:"绫波丽", nameEn:"AYANAMI REI", role:"第1少女 / 零号机驾驶员", cardImg:"images/丽.png",birth:"创造体 (莉莉丝灵魂容器)", relation:"碇源堂；碇真嗣(萌生情感)；碇唯复制体；莉莉丝", bio:"神秘的蓝发少女，逐渐萌生「心」，承载使徒与人类命运。实际上是莉莉丝的灵魂容器，也是人类补完计划的关键。", quote:"我不是你的人偶。", img:"images/丽1.png" },
+        { id:"mari", name:"真希波·玛丽·伊兰崔亚斯", nameEn:"MARI MAKINAMI ILLUSTRIOUS", role:"EVA八号机驾驶员 / 欧洲支部转任",cardImg:"images/真希波1.png", birth:"2001年? (实际年龄不明)", relation:"葛城美里(合作关系)；碇真嗣(新剧场版终章)", bio:"新剧场版登场的神秘驾驶员，驾驶EVA八号机。性格开朗直率，戴着复古眼镜，喜欢唱歌。实际上是和碇唯同时代的人，通过「诅咒」保持年轻。在最终决战中与真嗣并肩作战。", quote:"喵~ 这就是大人的吻哦！", img:"images/真希波.png" }
+    ];
+
+    // ================= NERV 作战指挥人员 =================
+    const nervStaff = [
+        { id:"misato", name:"葛城美里", role:"作战部长 / 真嗣监护人", cardImg:"images/美里1.png",birth:"1986年12月8日", relation:"真嗣(监护人)；加持良治(旧恋人)；赤木律子(同事)", bio:"豪爽而背负过去的女性，父亲在第二次冲击中牺牲。作为NERV作战部长，指挥EVA战斗，同时照顾真嗣，是团队的精神支柱。", quote:"活下去，这才是最重要的。", img:"images/美里.png" },
+        { id:"ritsuko", name:"赤木律子", role:"MAGI开发者 / 技术部长", cardImg:"images/律子1.png",birth:"1985年11月21日", relation:"母亲赤木直子；碇源堂(情人)；葛城美里(朋友)", bio:"冷静理性的科学家，负责EVA维护与MAGI系统。深陷对碇源堂的情感与对母亲复杂记忆中，最终选择背叛NERV。", quote:"人类创造的东西，终究会背叛人类。", img:"images/律子.png" },
+        { id:"gendo", name:"碇源堂", role:"NERV 总司令", cardImg:"images/司令.png",birth:"1967年4月29日", relation:"儿子碇真嗣；妻子碇唯；冬月耕造(副手)", bio:"人类补完计划的核心推动者，冷漠无情只为与唯重逢。操纵NERV与SEELE周旋，最终在补完计划中见到唯。", quote:"时间到了。", img:"images/司令.png" },
+        { id:"fuyutsuki", name:"冬月耕造", role:"NERV 副司令",cardImg:"images/冬月1.png", birth:"1950年4月9日", relation:"碇源堂(盟友)；碇唯(学生)", bio:"源堂的左右手，暗中推进补完计划。曾为大学教授，知晓唯与EVA的真相，对源堂保持忠诚却也有自己的底线。", quote:"人类的未来，究竟在何方？", img:"images/冬月.png" }
+    ];
+
+    // ================= EVA 机体 =================
+    const evaUnits = [
+        { id:"eva01", name:"EVA 初号机", role:"试验机体 / 碇真嗣专用", birth:"紫色涂装 · 绿色荧光装甲 · 暴走时可展开光之翼", relation:"碇唯(灵魂)；碇真嗣(驾驶员)", bio:"初号机是EVA系列的核心机体，拥有暴走特性，内含碇真嗣母亲碇唯的灵魂。实际上是莉莉丝的复制体而非亚当，在多次战斗中展现超越规格的力量，最终成为人类补完计划的关键。", quote:"", img:"images/初号机1.png" },
+        { id:"eva02", name:"EVA 二号机", role:"实战规格 / 明日香专用", birth:"红色涂装 · 野兽模式 · 头部四眼设计", relation:"明日香·兰格雷(驾驶员)", bio:"红色机体，专为实战设计，擅长近战与高机动战斗。明日香驾驶时展现卓越战斗能力，后期搭载兽化形态，是EVA系列中最具攻击性的机体。", quote:"", img:"images/二号机.png" },
+        { id:"eva00", name:"EVA 零号机", role:"原型机 / 绫波丽专用", birth:"黄色/蓝色涂装 · 单眼设计 · 原型测试机", relation:"绫波丽(驾驶员)", bio:"EVA系列的原型机，单眼设计。主要用于支援与实验，绫波丽驾驶。最终在与力天使战斗中为保护初号机自爆，展现了其牺牲精神。", quote:"", img:"images/零号机.png" },
+        { id:"eva08", name:"EVA 八号机", role:"正规实用型 / 真希波专用", birth:"粉色涂装 · 绿色装甲 · 背包式武器库", relation:"真希波·玛丽(驾驶员)；欧洲支部开发", bio:"新剧场版登场机体，由真希波驾驶。拥有强大的火力支援能力，在最终决战中与初号机并肩作战。特色是粉色涂装和绿色装甲，机动性极高。", quote:"", img:"images/八号机.png" }
+    ];
+
+    // ================= 完整使徒图鉴 =================
+    const apostles = [
+        { name:"第1使徒 亚当", symbol:"ADAM", desc:" primordial being / 在南极被发现，第二次冲击的源头。所有使徒的祖先，被SEELE封印在树脂中。" },
+        { name:"第2使徒 莉莉丝", symbol:"LILITH", desc:"黑色巨人 / 被钉在NERV总部最终教条，人类起源的母体。绫波丽的原型，黑之月的主人。" },
+        { name:"第3使徒 萨基尔", symbol:"SACHIEL", desc:"水天使 / 拥有强力粒子炮，首次攻击NERV总部，被暴走的初号机击败。" },
+        { name:"第4使徒 夏姆榭尔", symbol:"SHAMSHIEL", desc:"昼天使 / 可变形使徒，拥有强大的防御力，被明日香驾驶二号机击破。" },
+        { name:"第5使徒 雷米尔", symbol:"RAMIEL", desc:"雷天使 / 正八面体加粒子炮，NERV发动「屋岛作战」，初号机与零号机协力击穿其核心。" },
+        { name:"第6使徒 迦基尔", symbol:"GAGHIEL", desc:"鱼天使 / 从海洋中袭击战舰群，被EVA联合击破。" },
+        { name:"第7使徒 伊斯拉斐尔", symbol:"ISRAFEL", desc:"音乐使徒 / 拥有分裂能力，需两台EVA同步率达到极限才能击败。" },
+        { name:"第8使徒 桑德枫", symbol:"SANDALPHON", desc:"胎天使 / 在火山中孕育，急速进化后被明日香歼灭。" },
+        { name:"第9使徒 马特里尔", symbol:"MATRIEL", desc:"雨天使 / 蜘蛛型使徒，侵蚀NERV总部，被EVA击破。" },
+        { name:"第10使徒 伊洛尔", symbol:"IREUL", desc:"恐怖天使 / 电脑病毒形态入侵MAGI系统，被赤木律子用逻辑陷阱消灭。" },
+        { name:"第11使徒 莱拉艾尔", symbol:"LELAIEL", desc:"梦天使 / 侵入EVA驾驶员精神，进行心理攻击，被明日香觉醒击破。" },
+        { name:"第12使徒 巴迪尔", symbol:"BARDIEL", desc:"夜天使 / 虚数空间使徒，吞噬EVA初号机，真嗣在迪拉克之海中觉醒。" },
+        { name:"第13使徒 巴雷尔", symbol:"BARDIEL", desc:"霰天使 / 侵蚀EVA三号机，明日香驾驶被使徒污染的三号机，真嗣被迫迎战。" },
+        { name:"第14使徒 塞路尔", symbol:"ZERUEL", desc:"力天使 / 最强攻击性使徒，撕碎EVA零号机，重创初号机，后被暴走的初号机吞噬。" },
+        { name:"第15使徒 阿拉尔", symbol:"ARAEL", desc:"鸟天使 / 精神攻击使徒，直击明日香心灵，被EVA初号机击破。" },
+        { name:"第16使徒 阿米沙尔", symbol:"ALMISAEL", desc:"子宫天使 / 侵蚀EVA零号机，绫波丽自爆与其同归于尽。" },
+        { name:"第17使徒 渚薰", symbol:"TABRIS", desc:"自由天使 / 以人类形态出现，拥有自由意志，选择将未来交给人类，被真嗣杀死。" },
+        { name:"第18使徒 人类", symbol:"LILIN", desc:"人类 / 源自莉莉丝的生命，拥有智慧之果，使徒的最后一个。" }
+    ];
+
+    // 动画系列
+    const seriesList = [
+        { title:"新世纪福音战士 TV版", desc:"1995年，26话，意识流结局，心理描写巅峰。", img:"images/tv版.jpeg" },
+        { title:"DEATH & REBIRTH", desc:"总集篇+剧场版序章，死亡与新生。", img:"images/总集.jpeg" },
+        { title:"THE END OF EVANGELION", desc:"真心为你/Air，人类补完计划震撼呈现。", img:"images/air.jpeg" },
+        { title:"新剧场版：序/破/Q/终", desc:"2007-2021，重构EVA世界，新的结局。", img:"images/剧场.jpeg" }
+    ];
+
+    // BGM 列表 - 添加 OGG 文件路径（请替换为您的实际文件路径）
+    const bgmList = [
+        { title:"残酷天使的行动纲领", artist:"高桥洋子", desc:"EVA TV版片头曲，跨越时代的经典。", url:"music/残酷天使.ogg", img:"images/残酷天使.jpeg" },
+        { title:"Beautiful World", artist:"宇多田光", desc:"新剧场版「序」主题曲，温柔与希望。", url:"music/beautiful world.mp3", img:"images/beautiful world.jpeg" },
+        { title:"One Last Kiss", artist:"宇多田光", desc:"新剧场版「终」主题曲，告别与新生。", url:"music/one last kiss.mp3", img:"images/one last kiss.jpeg" },
+        { title:"Fly Me to the Moon", artist:"Claire", desc:"ED经典，无数版本诠释孤独与浪漫。", url:"music/fly me to the moon.ogg", img:"images/fly me to the moon.jpeg" }
+    ];
+
+    // ================= 播放/暂停功能 =================
+    let currentAudio = null;
+    let currentCard = null;
+
+    function togglePlay(url, title, cardElement) {
+        // 如果点击的是同一个卡片且正在播放，则暂停
+        if (currentCard === cardElement && currentAudio && !currentAudio.paused) {
+            currentAudio.pause();
+            cardElement.classList.remove('playing');
+            const playIcon = cardElement.querySelector('.play-icon');
+            if (playIcon) playIcon.innerHTML = '<i class="fas fa-play-circle"></i>';
+            currentCard = null;
+            return;
+        }
+
+        // 停止当前播放
+        if (currentAudio) {
+            currentAudio.pause();
+            if (currentCard) {
+                currentCard.classList.remove('playing');
+                const oldIcon = currentCard.querySelector('.play-icon');
+                if (oldIcon) oldIcon.innerHTML = '<i class="fas fa-play-circle"></i>';
+            }
+        }
+
+        // 播放新的
+        const audio = new Audio(url);
+        currentAudio = audio;
+        currentCard = cardElement;
+
+        audio.play().catch(e => {
+            console.log('播放失败:', e);
+            alert(`《${title}》播放失败，请检查文件路径是否正确。\n当前路径：${url}`);
+            currentCard = null;
+            currentAudio = null;
+            return;
+        });
+
+        cardElement.classList.add('playing');
+        const playIcon = cardElement.querySelector('.play-icon');
+        if (playIcon) playIcon.innerHTML = '<i class="fas fa-pause-circle"></i>';
+
+        audio.onended = () => {
+            cardElement.classList.remove('playing');
+            if (playIcon) playIcon.innerHTML = '<i class="fas fa-play-circle"></i>';
+            currentCard = null;
+            currentAudio = null;
+        };
+    }
+
+    // ================= 模态框打开函数 =================
+    function openModal(item, type) {
+        document.getElementById('modalCharacterName').innerHTML = item.name;
+        document.getElementById('modalRoleTag').innerHTML = item.role;
+
+        if (type === 'eva') {
+            document.getElementById('modalBirthLabel').innerHTML = '<strong>外观：</strong>';
+            document.getElementById('modalRelationLabel').innerHTML = '<strong>相关人物：</strong>';
+            document.getElementById('modalBioLabel').innerHTML = '<strong>简介：</strong>';
+            document.getElementById('modalQuoteRow').style.display = 'none';
+        } else {
+            document.getElementById('modalBirthLabel').innerHTML = '<strong>生日：</strong>';
+            document.getElementById('modalRelationLabel').innerHTML = '<strong>人物关系：</strong>';
+            document.getElementById('modalBioLabel').innerHTML = '<strong>生平简述：</strong>';
+            document.getElementById('modalQuoteRow').style.display = 'flex';
+        }
+
+        document.getElementById('modalBirth').innerText = item.birth || '——';
+        document.getElementById('modalRelation').innerText = item.relation || '——';
+        document.getElementById('modalBio').innerText = item.bio;
+        document.getElementById('modalQuote').innerHTML = `“${item.quote || '为人类未来而战'}”`;
+        document.getElementById('modalCharacterImg').src = item.img;
+        document.getElementById('fullscreenModal').style.display = 'flex';
+    }
+
+    // ================= 渲染函数 =================
+    function renderCharacters() {
+        const grid = document.getElementById('characterGrid');
+        grid.innerHTML = '';
+        characters.forEach(c => {
+            const card = document.createElement('div');
+            card.className = 'eva-card';
+            // 使用卡片图片，如果没有则用默认图标
+            const imgUrl = c.cardImg || c.img || '';
+            card.innerHTML = `
+            <div class="card-media">
+                ${imgUrl ? `<img src="${imgUrl}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user-astronaut"></i>'}
+            </div>
+            <div class="card-info">
+                <h3>${c.name}</h3>
+                <div class="role-tag">${c.role}</div>
+            </div>
+        `;
+            card.addEventListener('click', () => openModal(c, 'character'));
+            grid.appendChild(card);
+        });
+    }
+
+    function renderNervStaff() {
+        const grid = document.getElementById('nervStaffGrid');
+        grid.innerHTML = '';
+        nervStaff.forEach(s => {
+            const card = document.createElement('div');
+            card.className = 'nerv-card';
+            const imgUrl = s.cardImg || s.img || '';
+            card.innerHTML = `
+            <div class="card-media">
+                ${imgUrl ? `<img src="${imgUrl}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user-tie"></i>'}
+            </div>
+            <div class="card-info">
+                <h3>${s.name}</h3>
+                <div class="role-tag">${s.role}</div>
+            </div>
+        `;
+            card.addEventListener('click', () => openModal(s, 'staff'));
+            grid.appendChild(card);
+        });
+    }
+
+    function renderEvaUnits() {
+        const grid = document.getElementById('evaUnitGrid');
+        grid.innerHTML = '';
+        evaUnits.forEach(e => {
+            const card = document.createElement('div');
+            card.className = 'eva-unit-card';
+            const imgUrl = e.cardImg || e.img || '';
+            card.innerHTML = `
+            <div class="card-media">
+                ${imgUrl ? `<img src="${imgUrl}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-microchip"></i>'}
+            </div>
+            <div class="card-info">
+                <h3>${e.name}</h3>
+                <div class="role-tag">${e.role}</div>
+            </div>
+        `;
+            card.addEventListener('click', () => openModal(e, 'eva'));
+            grid.appendChild(card);
+        });
+    }
+
+    function renderApostles() {
+        const container = document.getElementById('apostleScroll');
+        container.innerHTML = apostles.map(a => `
+            <div class="apostle-card ${a.name.includes('莉莉丝') ? 'lilith-badge' : ''}">
+                <div class="apostle-name">${a.name}</div>
+                <div class="apostle-symbol">${a.symbol}</div>
+                <div class="apostle-desc">${a.desc}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderSeries() {
+        const container = document.getElementById('seriesGrid');
+        container.innerHTML = seriesList.map(s => `<div class="bgm-card"><img class="bgm-img" src="${s.img}" onerror="this.src='https://picsum.photos/400/200'"><div class="bgm-info"><h3>${s.title}</h3><p>${s.desc}</p></div></div>`).join('');
+    }
+
+    function renderBgm() {
+        const container = document.getElementById('bgmGrid');
+        container.innerHTML = bgmList.map(b => `
+            <div class="bgm-card" data-url="${b.url}" data-title="${b.title}">
+                <img class="bgm-img" src="${b.img}" onerror="this.src='https://picsum.photos/400/200'">
+                <div class="bgm-info">
+                    <h3><i class="fas fa-play-circle play-icon"></i> ${b.title} <span class="play-badge">点击播放/暂停</span></h3>
+                    <p>作曲：${b.artist}<br>${b.desc}</p>
+                </div>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.bgm-card').forEach(card => {
+            const url = card.getAttribute('data-url');
+            const title = card.getAttribute('data-title');
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (url) togglePlay(url, title, card);
+            });
+        });
+    }
+
+    // ================= 留言板系统 =================
+    let messages = [];
+
+    function loadMessages() {
+        const stored = localStorage.getItem('eva_messages_final');
+        if (stored) {
+            try {
+                messages = JSON.parse(stored);
+            } catch(e) { messages = []; }
+        }
+        if (!messages.length) {
+            messages = [
+                { id: Date.now(), name: "NERV分析员", text: "莉莉丝才是人类真正的起源……", date: new Date().toLocaleString() },
+                { id: Date.now()+1, name: "第三适格者", text: "亚当和莉莉丝，生命之果与智慧之果的对照。", date: new Date().toLocaleString() },
+                { id: Date.now()+2, name: "真希波粉丝", text: "真希波太帅了！八号机粉色涂装超可爱！", date: new Date().toLocaleString() },
+                { id: Date.now()+3, name: "渚薰", text: "我们使徒来自亚当，而人类来自莉莉丝。", date: new Date().toLocaleString() },
+                { id: Date.now()+4, name: "EVA迷", text: "新剧场版终章，真嗣和真希波一起跑出车站，感动！", date: new Date().toLocaleString() }
+            ];
+            saveMessages();
+        }
+        renderMessages();
+    }
+
+    function saveMessages() {
+        localStorage.setItem('eva_messages_final', JSON.stringify(messages));
+    }
+
+    function renderMessages() {
+        const container = document.getElementById('messageListEnhanced');
+        const countSpan = document.getElementById('msgCount');
+        if (!container) return;
+        countSpan.innerText = messages.length;
+        if (messages.length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding:20px; color:#888;">✨ 暂无留言，成为第一个留下灵魂共鸣的人吧 ✨</div>';
+            return;
+        }
+        container.innerHTML = messages.slice().reverse().map(msg => `
+            <div class="msg-item-enhanced" data-id="${msg.id}">
+                <div class="msg-header">
+                    <span class="msg-name"><i class="fas fa-user-circle"></i> ${escapeHtml(msg.name)}</span>
+                    <span><span class="msg-date">${escapeHtml(msg.date)}</span>
+                    <button class="delete-msg" onclick="deleteMessage(${msg.id})"><i class="fas fa-trash-alt"></i> 删除</button></span>
+                </div>
+                <div class="msg-text">${escapeHtml(msg.text)}</div>
+            </div>
+        `).join('');
+    }
+
+    window.deleteMessage = function(id) {
+        messages = messages.filter(msg => msg.id !== id);
+        saveMessages();
+        renderMessages();
+    };
+
+    function addMessage(name, text) {
+        if (!text.trim()) {
+            alert('请填写留言内容~');
+            return false;
+        }
+        const newMsg = {
+            id: Date.now(),
+            name: name.trim() || "匿名同袍",
+            text: text.trim(),
+            date: new Date().toLocaleString()
+        };
+        messages.push(newMsg);
+        saveMessages();
+        renderMessages();
+        return true;
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // 倒计时
+    function updateCountdown() {
+        const target = new Date(2026, 5, 22, 0, 0, 0).getTime();
+        const now = Date.now();
+        const dist = target - now;
+        if (dist < 0) {
+            document.getElementById("countdownTimer").innerHTML = "冲击·人类补完";
+            return;
+        }
+        const days = Math.floor(dist / 86400000);
+        const hours = Math.floor((dist % 86400000) / 3600000);
+        const mins = Math.floor((dist % 3600000) / 60000);
+        const secs = Math.floor((dist % 60000) / 1000);
+        document.getElementById("countdownTimer").innerHTML = `${days}天 ${hours}时 ${mins}分 ${secs}秒`;
+    }
+
+    // 返回顶部
+    document.getElementById('goTopBtn')?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 模态框关闭
+    document.getElementById('closeModalBtn')?.addEventListener('click', () => {
+        document.getElementById('fullscreenModal').style.display = 'none';
+    });
+    window.addEventListener('click', (e) => {
+        const modal = document.getElementById('fullscreenModal');
+        if (e.target === modal) modal.style.display = 'none';
+    });
+
+    // 发送留言
+    document.getElementById('sendMsgBtn')?.addEventListener('click', () => {
+        const name = document.getElementById('msgNameInput').value;
+        const content = document.getElementById('msgContentInput').value;
+        if (addMessage(name, content)) {
+            document.getElementById('msgContentInput').value = '';
+        }
+    });
+
+    document.getElementById('msgContentInput')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById('sendMsgBtn').click();
+        }
+    });
+
+    // 初始化
+    renderCharacters();
+    renderNervStaff();
+    renderEvaUnits();
+    renderApostles();
+    renderSeries();
+    renderBgm();
+    loadMessages();
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+</script>
+</body>
+</html>

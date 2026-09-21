@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>NERV GEHIR ·  Evangelion 机密档案</title>
+    <!-- 字体: 硬朗科技+ 日式风格 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* 氛围感，但不禁用文字复制 */
+        }
+
+        body {
+            background: #05070a;
+            font-family: 'Inter', 'JetBrains Mono', monospace;
+            color: #d9e2e8;
+            line-height: 1.5;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 扫描线与噪点效果 (EVA 风格) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 255, 65, 0.02) 0px, rgba(0, 255, 65, 0.02) 2px, transparent 2px, transparent 6px);
+            pointer-events: none;
+            z-index: 2;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(128, 0, 32, 0.08) 0%, #000000 90%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            background: #0f1117;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e34c26;
+            border-radius: 4px;
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem 3rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* NERV 头部 */
+        .nerv-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid #e34c26;
+            padding-bottom: 0.6rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .logo-area h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            background: linear-gradient(135deg, #ff4d4d, #b91c1c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(220, 38, 38, 0.3);
+        }
+        .logo-area p {
+            font-size: 0.7rem;
+            font-family: monospace;
+            color: #ff5e5e;
+            letter-spacing: 2px;
+        }
+        .nerv-badge {
+            font-family: monospace;
+            background: #1e1a1faa;
+            backdrop-filter: blur(4px);
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            border: 1px solid #e34c2666;
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+
+        /* 全局警示条 */
+        .warning-bar {
+            background: #1f0b0e;
+            border-left: 6px solid #e34c26;
+            padding: 0.6rem 1rem;
+            font-size: 0.7rem;
+            font-family: monospace;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        /* 人物介绍区 网格 */
+        .section-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin: 2rem 0 1.2rem 0;
+            padding-left: 12px;
+            border-left: 8px solid #e34c26;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title i {
+            color: #e34c26;
+            font-size: 1.3rem;
+        }
+
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* EVA 风格卡片 */
+        .eva-card {
+            background: rgba(10, 12, 18, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(227, 76, 38, 0.35);
+            border-radius: 1.8rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 30px -12px rgba(0,0,0,0.5);
+        }
+        .eva-card:hover {
+            transform: translateY(-6px);
+            border-color: #e34c26;
+            box-shadow: 0 0 18px rgba(227, 76, 38, 0.2);
+        }
+        .card-media {
+            height: 260px;
+            background: linear-gradient(145deg, #11151f, #03060c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        /* 模拟角色剪影/像素风格 (纯css艺术化, 使用emoji占位 + 背景象征) */
+        .card-media i {
+            font-size: 5rem;
+            filter: drop-shadow(0 0 6px #e34c26);
+            z-index: 2;
+        }
+        .hex-bg {
+            position: absolute;
+            opacity: 0.2;
+            font-size: 8rem;
+            right: -20px;
+            bottom: -20px;
+        }
+        .card-info {
+            padding: 1.2rem 1.3rem 1.5rem;
+        }
+        .card-info h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff, #e34c26);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.4rem;
+        }
+        .role-tag {
+            font-family: monospace;
+            color: #e34c26;
+            font-size: 0.7rem;
+            border-bottom: 1px dashed #e34c2677;
+            display: inline-block;
+            margin-bottom: 0.8rem;
+        }
+        .role-desc {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #bcc3cd;
+        }
+        .cv {
+            font-size: 0.7rem;
+            margin-top: 12px;
+            color: #7f8c9a;
+            border-top: 1px solid #2a2e3c;
+            padding-top: 8px;
+        }
+
+        /* 使徒专区 - 横向滚动 或 网格 */
+        .apostle-section {
+            background: #03060cb3;
+            border-radius: 2rem;
+            padding: 1rem 1rem 1.8rem;
+            margin: 1rem 0 2rem;
+            border: 1px solid #441c14;
+        }
+        .apostle-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 1.5rem;
+            padding: 0.8rem 0.5rem 1rem;
+            scrollbar-width: thin;
+        }
+        .apostle-scroll::-webkit-scrollbar {
+            height: 5px;
+        }
+        .apostle-card {
+            min-width: 210px;
+            background: #0b0f17dd;
+            backdrop-filter: blur(4px);
+            border-radius: 1.2rem;
+            padding: 0.9rem;
+            border-left: 4px solid #e34c26;
+            transition: 0.2s;
+        }
+        .apostle-name {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #e05a2a;
+        }
+        .apostle-symbol {
+            font-family: monospace;
+            font-size: 1rem;
+            background: #1e1412;
+            display: inline-block;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            margin: 8px 0;
+        }
+        .apostle-desc {
+            font-size: 0.75rem;
+            color: #adbbd0;
+        }
+
+        /* 倒计时/ EVA 风格框 */
+        .countdown-box {
+            background: #0b0d12;
+            border: 1px solid #e34c2660;
+            border-radius: 1.2rem;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 2rem 0 1rem;
+            font-family: monospace;
+        }
+        .cd-label {
+            font-weight: bold;
+            color: #e34c26;
+        }
+        .cd-timer {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            background: #00000080;
+            padding: 0.2rem 1rem;
+            border-radius: 2rem;
+        }
+
+        /* 底部 */
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.7rem;
+            border-top: 1px solid #2a241f;
+            padding: 1.5rem;
+            color: #776b66;
+        }
+        @media (max-width: 750px) {
+            .container {
+                padding: 0.8rem;
+            }
+            .card-media i {
+                font-size: 3.5rem;
+            }
+            .cd-timer {
+                font-size: 1rem;
+            }
+            .section-title {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* 渚薰专属光泽 */
+        .kaoru-glow {
+            text-shadow: 0 0 5px #ffa07a;
+        }
+        button, .nerv-btn {
+            background: none;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="nerv-header">
+        <div class="logo-area">
+            <h1>⚡ NERV GEHIR ⚡</h1>
+            <p>ABSOLUTE TERROR FIELD ·  Evangelion 分析档案</p>
+        </div>
+        <div class="nerv-badge">
+            <i class="fas fa-skull"></i>  MAGI SYSTEM  // 机密等级:  Σ
+        </div>
+    </div>
+    <div class="warning-bar">
+        <span><i class="fas fa-radiation"></i> 精神污染注意 | 同步率临界</span>
+        <span><i class="fas fa-code-branch"></i> 人类补完计划 预备案 0079</span>
+        <span>© SEELE · 朗基努斯之枪</span>
+    </div>
+
+    <!-- 人物介绍区 核心四位 -->
+    <div class="section-title">
+        <i class="fas fa-user-astronaut"></i>  EVA 驾驶员 ·  designated children
+    </div>
+    <div class="character-grid">
+        <!-- 碇真嗣 card -->
+        <div class="eva-card">
+            <div class="card-media">
+                <i class="fas fa-robot"></i>
+                <div class="hex-bg">⚡</div>
+            </div>
+            <div class="card-info">
+                <h3>碇真嗣 <span style="font-size: 1rem;">IKARI SHINJI</span></h3>
+                <div class="role-tag">第3少年 / 初号机专属驾驶员</div>
+                <div class="role-desc">内向、敏感而渴望被认可的少年。被父亲碇源堂召唤至NERV，被迫驾驶EVA初号机与使徒战斗。在无数次战斗中挣扎、逃避、成长，寻求自我存在的意义与人与人之间的羁绊。</div>
+                <div class="cv">CV: 绪方惠美 | “不能逃避，不能逃避，不能逃避……”</div>
+            </div>
+        </div>
+        <!-- 明日香 -->
+        <div class="eva-card">
+            <div class="card-media">
+                <i class="fas fa-crown"></i>
+                <div class="hex-bg">🔥</div>
+            </div>
+            <div class="card-info">
+                <h3>惣流·明日香·兰格雷 <span style="font-size: 0.9rem;">ASUKA</span></h3>
+                <div class="role-tag">第2少女 / 二号机驾驶员 · 精英</div>
+                <div class="role-desc">骄傲的天才驾驶员，以强大的自尊掩盖童年的创伤。好胜心极强，驾驶EVA二号机展现卓越战斗能力。与真嗣既有竞争又存在微妙情感，在使徒战争中逐渐面临内心的崩溃与觉醒。</div>
+                <div class="cv">CV: 宫村优子 | “你是白痴吗？”</div>
+            </div>
+        </div>
+        <!-- 绫波丽 -->
+        <div class="eva-card">
+            <div class="card-media">
+                <i class="fas fa-dove"></i>
+                <div class="hex-bg">❄️</div>
+            </div>
+            <div class="card-info">
+                <h3>绫波丽 <span style="font-size: 0.9rem;">AYANAMI REI</span></h3>
+                <div class="role-tag">第1少女 · 零号机驾驶员 · 莉莉丝灵魂容器</div>
+                <div class="role-desc">神秘的蓝发少女，缺乏情感表达，却逐渐在与真嗣的接触中萌生“心”。是碇唯的复制体，承载着使徒与人类的命运。沉默、脆弱却又无比坚强，象征着新生与牺牲。</div>
+                <div class="cv">CV: 林原惠美 | “我不是你的人偶。”</div>
+            </div>
+        </div>
+        <!-- 渚薰 -->
+        <div class="eva-card">
+            <div class="card-media">
+                <i class="fas fa-moon"></i>
+                <div class="hex-bg">✨</div>
+            </div>
+            <div class="card-info">
+                <h3>渚薰 <span style="font-size: 0.9rem;">KAWORU NAGISA</span></h3>
+                <div class="role-tag">自由天使 · 第17使徒 Tabris / 五号机驾驶员</div>
+                <div class="role-desc">拥有温柔笑容与哲学气质的少年，与真嗣建立深刻羁绊。实际身为最后的使徒，却选择将未来交给人类。他的爱是绝对的自由与选择，经典台词“我是为了与你相遇而生”。</div>
+                <div class="cv">CV: 石田彰 | “也许，我是为了与你相遇才诞生的。”</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 次要人物/葛城美里 赤木律子 等 短介绍 -->
+    <div class="section-title">
+        <i class="fas fa-building"></i>  NERV 本部 · 作战指挥
+    </div>
+    <div class="character-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px,1fr));">
+        <div class="eva-card" style="background: #0a0c14cc;">
+            <div class="card-info"><h3>葛城美里 <span style="font-size:0.9rem;">MISATO</span></h3><div class="role-tag">作战部长 / 真嗣监护人</div><div class="role-desc">豪爽而背负过去的女性，引导真嗣等人，是NERV的灵魂支柱之一。</div></div>
+        </div>
+        <div class="eva-card" style="background: #0a0c14cc;">
+            <div class="card-info"><h3>赤木律子 <span style="font-size:0.9rem;">RITSUKO</span></h3><div class="role-tag">MAGI开发者 / 科学家</div><div class="role-desc">冷静理性，掌握许多NERV核心秘密，对EVA与使徒有着深刻理解。</div></div>
+        </div>
+        <div class="eva-card" style="background: #0a0c14cc;">
+            <div class="card-info"><h3>碇源堂 <span style="font-size:0.9rem;">GENDOH</span></h3><div class="role-tag">NERV 总司令</div><div class="role-desc">人类补完计划的核心推动者，冷漠无情只为与唯重逢。</div></div>
+        </div>
+        <div class="eva-card" style="background: #0a0c14cc;">
+            <div class="card-info"><h3>冬月耕造</h3><div class="role-tag">副司令</div><div class="role-desc">源堂的左右手，暗中推进补完计划。</div></div>
+        </div>
+    </div>
+
+    <!-- 使徒介绍专区 经典使徒 萨基尔 雷米尔 伊洛尔 等 -->
+    <div class="section-title">
+        <i class="fas fa-dragon"></i>  使徒图鉴 · ANGEL ATTACK
+    </div>
+    <div class="apostle-section">
+        <div class="apostle-scroll">
+            <div class="apostle-card"><div class="apostle-name">第3使徒 萨基尔</div><div class="apostle-symbol">SACHIEL</div><div class="apostle-desc">水天使，拥有强大粒子炮，首次突破NERV防线，迫使初号机暴走。</div></div>
+            <div class="apostle-card"><div class="apostle-name">第4使徒 夏姆榭尔</div><div class="apostle-symbol">SHAMSHIEL</div><div class="apostle-desc">昼天使，可变形使徒，被明日香驾驶二号机击败。</div></div>
+            <div class="apostle-card"><div class="apostle-name">第5使徒 雷米尔</div><div class="apostle-symbol">RAMIEL</div><div class="apostle-desc">雷天使，正八面体加粒子炮，人类方使用屋岛作战贯穿核心。</div></div>
+            <div class="apostle-card"><div class="apostle-name">第6使徒 迦基尔</div><div class="apostle-symbol">GAGHIEL</div><div class="apostle-desc">鱼天使，从海洋中攻击，被EVA联合击破。</div></div>
+            <div class="apostle-card"><div class="apostle-name">第7使徒 伊斯拉斐尔</div><div class="apostle-symbol">ISRAFEL</div><div class="apostle-desc">音乐/分裂使徒，初号机与二号机以完美同步击败。</div></div>
+            <div class="apostle-card"><div class="apostle-name">第8使徒 桑德枫</div><div class="apostle-symbol">SANDALPHON</div><div class="apostle-desc">胎天使，火山中孕育，急速进化后被明日香歼灭。</div></div>
+            <div class="apostle-card"><div class="apostle-name">第10使徒 伊洛尔</div><div class="apostle-symbol">IREUL</div><div class="apostle-desc">恐怖天使，电脑病毒形态侵入MAGI，最终被律子逻辑抹杀。</div></div>
+            <div class="apostle-card"><div class="apostle-name">第14使徒 塞路尔</div><div class="apostle-symbol">ZERUEL</div><div class="apostle-desc">力天使，最强攻击性使徒，撕开EVA零号机并重创初号机，最终被暴走初号机吞噬。</div></div>
+            <div class="apostle-card"><div class="apostle-name">第17使徒 渚薰</div><div class="apostle-symbol">TABRIS</div><div class="apostle-desc">自由天使，拥有自由意志，选择将未来交给人类，被真嗣杀死。</div></div>
+        </div>
+        <div style="font-size:0.7rem; text-align:right; margin-top: 8px; color:#e34c26;"><i class="fas fa-exclamation-triangle"></i> 现存使徒歼灭数量: 17 (包含人类之敌)</div>
+    </div>
+
+    <!-- EVA机体三机介绍 -->
+    <div class="section-title">
+        <i class="fas fa-microchip"></i>  泛用人形决战兵器 · EVANGELION
+    </div>
+    <div class="character-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px,1fr));">
+        <div class="eva-card"><div class="card-info"><h3>EVA 初号机</h3><div class="role-tag">试验机体 / 碇真嗣专用</div><div class="role-desc">紫色涂装，拥有暴走特性，内含碇唯的灵魂，是引发第三次冲击的关键。</div></div></div>
+        <div class="eva-card"><div class="card-info"><h3>EVA 二号机</h3><div class="role-tag">实战规格 / 明日香专用</div><div class="role-desc">红色机体，适合近战，兽化形态凶猛，后成为战自的焦点。</div></div></div>
+        <div class="eva-card"><div class="card-info"><h3>EVA 零号机</h3><div class="role-tag">原型机 / 绫波丽专用</div><div class="role-desc">黄色/蓝色单眼机体，主要用于支援，最后为保护初号机自爆。</div></div></div>
+    </div>
+
+    <!-- 倒计时组件 : 第三次冲击? 或者某个纪念日 EVA风格 例如 人类补完计划倒计时 (虚构)-->
+    <div class="countdown-box">
+        <span class="cd-label"><i class="fas fa-hourglass-half"></i>  人类补完计划 预想日倒计时 · DEADLINE</span>
+        <span class="cd-timer" id="countdownTimer">-- -- --</span>
+    </div>
+
+    <!-- 朗基努斯之枪引用 氛围 -->
+    <div style="text-align: center; margin: 2rem 0 1rem; font-family: monospace; font-size: 0.7rem; opacity:0.7">
+        <i class="fas fa-crosshairs"></i>  长矛刺穿心之壁障 · 灵魂回归莉莉丝之卵
+    </div>
+
+    <div class="footer">
+        ⚡ NERV 特殊情报部 | 一切资料基于死海文书外典 ⚡ <br>
+        “只要活着，哪里都是天堂。” —— 渚薰 ·  Evangelion Final
+    </div>
+</div>
+
+<script>
+    // 倒计时设置: 选择EVA相关经典日期 (2025年6月? 或者设定为渚薰生日或虚构补完日) 设为一个象征日期: 2026年6月22日 (第三次冲击虚构)
+    function getCountdownDate() {
+        // 设定目标: 2026年6月22日 00:00:00 (让倒计时有点意义)
+        return new Date(2026, 5, 22, 0, 0, 0).getTime();
+    }
+
+    function updateCountdown() {
+        const target = getCountdownDate();
+        const now = new Date().getTime();
+        const distance = target - now;
+
+        if (distance < 0) {
+            document.getElementById("countdownTimer").innerHTML = "冲击发生 / 人类补完";
+            return;
+        }
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        document.getElementById("countdownTimer").innerHTML = `${days}天 ${hours}时 ${minutes}分 ${seconds}秒`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // 添加一点动态警告闪烁控制台彩蛋 (可选)
+    console.log("%c⚠️ WARNING:  AT FIELD 全开  ⚠️", "color: #e34c26; font-size: 16px; font-family: monospace;");
+    console.log("%cNERV HQ 已联机 · 请驾驶员做好同步准备", "color: #88ffaa");
+
+    // 鼠标移动产生光晕效果? 简易装饰不做复杂渲染 保持性能
+    // 页面内所有图片风格仅使用字体图标，无外部图片请求，完美纯css+html
+    // 也符合EVA简约硬派UI + 科技恐惧
+</script>
+</body>
+</html>
